@@ -412,6 +412,7 @@ class AssetIncidentReportSerializer(serializers.ModelSerializer):
             "witnesses",
             "submitted_by",
             "police_abstract_obtained",
+            "police_abstract",
         )
 
     def get_submitted_by(self, instance):
