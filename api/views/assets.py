@@ -597,6 +597,7 @@ class StateTransitionViewset(ModelViewSet):
                 }
             )
 
+
 class PoliceAbstract(APIView):
     permission_classes = [IsAuthenticated]
 
