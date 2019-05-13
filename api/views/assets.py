@@ -611,8 +611,6 @@ class PoliceAbstract(APIView):
             filename = fs.save(abstract_name, abstract)
             uploaded_file_url = fs.url(filename)
 
-            return Response(
-                data={"success": {"uploaded_file_url": uploaded_file_url}}
-            )
+            return Response(data={"success": {"uploaded_file_url": uploaded_file_url}})
         else:
             return ValidationError("Abstract not provided")
