@@ -207,6 +207,14 @@ class Asset(models.Model):
     assigned_to = models.ForeignKey(
         "AssetAssignee", blank=True, editable=False, null=True, on_delete=models.PROTECT
     )
+    owned_by = models.ForeignKey(
+        "AssetOwner",
+        blank=True,
+        editable=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="owned_by",
+    )
     model_number = models.ForeignKey(
         "AssetModelNumber", null=True, on_delete=models.PROTECT
     )
@@ -216,6 +224,13 @@ class Asset(models.Model):
         "AssetSpecs", blank=True, null=True, on_delete=models.PROTECT
     )
     verified = models.BooleanField(default=True)
+    department = models.ForeignKey(
+        "Department", null=True, blank=True, on_delete=models.PROTECT
+    )
+    active = models.BooleanField(blank=True, null=True)
+    paid_or_postpaid = models.CharField(
+        blank=True, null=True, max_length=8, choices=constants.SIMCARD_ASSET_OPTIONS
+    )
     objects = CaseInsensitiveManager()
 
     def __str__(self):
@@ -294,7 +309,7 @@ class Asset(models.Model):
         return self._get_asset_type().name
 
 
-class AssetAssignee(models.Model):
+class AssetAssigneeOrOwner(models.Model):
     department = models.OneToOneField(
         "Department", null=True, blank=True, on_delete=models.CASCADE
     )
@@ -309,11 +324,12 @@ class AssetAssignee(models.Model):
             return str(assignee)
         else:
             raise ValidationError(
-                message="No Department, Workspace or User for this AssetAssignee"
+                message="No Department, Workspace or User for this AssetAssignee/Owner"
             )
 
     class Meta:
         ordering = ["-id"]
+        abstract = True
 
     @property
     def first_name(self):
@@ -341,6 +357,14 @@ class AssetAssignee(models.Model):
             return self.workspace.name
         if self.user:
             return self.user.email
+
+
+class AssetAssignee(AssetAssigneeOrOwner):
+    pass
+
+
+class AssetOwner(AssetAssigneeOrOwner):
+    pass
 
 
 class AssetLog(models.Model):
