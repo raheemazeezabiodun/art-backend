@@ -59,7 +59,7 @@ class AssetSerializer(serializers.ModelSerializer):
             "verified",
             "department",
             "active",
-            "paid_or_postpaid",
+            "prepaid_or_postpaid",
         )
         depth = 1
         read_only_fields = (
