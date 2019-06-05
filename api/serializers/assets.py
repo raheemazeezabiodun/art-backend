@@ -60,6 +60,7 @@ class AssetSerializer(serializers.ModelSerializer):
             "department",
             "active",
             "prepaid_or_postpaid",
+            "expiry_date",
         )
         depth = 1
         read_only_fields = (
@@ -149,7 +150,7 @@ class AssetSerializer(serializers.ModelSerializer):
                 "prepaid_or_postpaid": "Only sim cards can be prepaid or postpaid"
             },
             "mifi": {"active": "Only mifi cards can be activated or deactivated"},
-            "embusecard": {"expiry_date": "Only mifi cards can update this field"},
+            "atmcard": {"expiry_date": "Only atm cards can have this field updated"},
         }
 
         if (

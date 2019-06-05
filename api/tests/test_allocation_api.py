@@ -137,7 +137,7 @@ class AllocationTestCase(APIBaseTestCase):
     def test_filter_allocations_by_asset_owner(self, mock_verify_id_token):
 
         mock_verify_id_token.return_value = {"email": self.other_user.email}
-        data = {"asset": self.asset.id, "current_owner": self.asset_assignee.id}
+        data = {"asset": self.asset.id, "current_assignee": self.asset_assignee.id}
         client.post(
             self.allocations_urls,
             data,
@@ -150,7 +150,7 @@ class AllocationTestCase(APIBaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         count = AllocationHistory.objects.filter(
-            current_owner=self.asset_assignee.id
+            current_assignee=self.asset_assignee.id
         ).count()
         self.assertEqual(len(response.data["results"]), count)
 
@@ -162,7 +162,7 @@ class AllocationTestCase(APIBaseTestCase):
             name="4E", section=self.floor_section
         )
         asset_assignee = AssetAssignee.objects.get(workspace=workspace)
-        data = {"asset": self.asset.id, "current_owner": self.asset_assignee.id}
+        data = {"asset": self.asset.id, "current_assignee": self.asset_assignee.id}
         response = client.post(
             self.allocations_urls,
             data,
@@ -175,7 +175,7 @@ class AllocationTestCase(APIBaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         count = AllocationHistory.objects.filter(
-            current_owner=asset_assignee.id
+            current_assignee=asset_assignee.id
         ).count()
         self.assertEqual(len(response.data["results"]), count)
 
@@ -185,7 +185,7 @@ class AllocationTestCase(APIBaseTestCase):
 
         department = Department.objects.create(name="Success")
         asset_assignee = AssetAssignee.objects.get(department=department)
-        data = {"asset": self.asset.id, "current_owner": self.asset_assignee.id}
+        data = {"asset": self.asset.id, "current_assignee": self.asset_assignee.id}
         client.post(
             self.allocations_urls,
             data,
@@ -198,7 +198,7 @@ class AllocationTestCase(APIBaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         count = AllocationHistory.objects.filter(
-            current_owner=asset_assignee.id
+            current_assignee=asset_assignee.id
         ).count()
         self.assertEqual(len(response.data["results"]), count)
 
@@ -206,7 +206,7 @@ class AllocationTestCase(APIBaseTestCase):
     def test_filter_allocations_by_asset_serial_number(self, mock_verify_id_token):
         mock_verify_id_token.return_value = {"email": self.other_user.email}
 
-        data = {"asset": self.asset.id, "current_owner": self.asset_assignee.id}
+        data = {"asset": self.asset.id, "current_assignee": self.asset_assignee.id}
         client.post(
             self.allocations_urls,
             data,
@@ -229,7 +229,7 @@ class AllocationTestCase(APIBaseTestCase):
     def test_filter_allocations_by_asset_code(self, mock_verify_id_token):
         mock_verify_id_token.return_value = {"email": self.other_user.email}
 
-        data = {"asset": self.asset.id, "current_owner": self.asset_assignee.id}
+        data = {"asset": self.asset.id, "current_assignee": self.asset_assignee.id}
         client.post(
             self.allocations_urls,
             data,
