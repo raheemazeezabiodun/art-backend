@@ -259,7 +259,13 @@ class AssetStatusSerializer(AssetSerializer):
 class AllocationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AllocationHistory
-        fields = ("asset", "current_assignee", "previous_assignee", "assigner", "created_at")
+        fields = (
+            "asset",
+            "current_assignee",
+            "previous_assignee",
+            "assigner",
+            "created_at",
+        )
         read_only_fields = ("previous_assignee",)
 
     def to_representation(self, instance):
